@@ -1,42 +1,42 @@
 import requests
+import random
 
 BOT_TOKEN = "8808812721:AAHxyMi93jJHguMWWXPmFHR6ECC13x_SIOQ"
 CHAT_ID = "1237652497"
 
-crypto_trends = [
-    "Bitcoin ETF",
+trends = [
     "Solana",
-    "Ethereum",
     "Jupiter",
     "Pump.fun",
+    "Bitcoin ETF",
+    "Hyperliquid",
+    "Ethereum",
     "BONK",
     "DePIN",
     "AI Agents",
-    "Base Chain",
-    "Hyperliquid"
+    "Base"
 ]
 
-trend = crypto_trends[0]
+trend = random.choice(trends)
 
 message = f"""
 🔥 Crypto Trend Alert
 
-Trending Topic:
-{trend}
+Topic: {trend}
 
 Tweet Idea:
 
-🚀 {trend} is gaining attention across the crypto ecosystem.
+🚀 {trend} is one of the most discussed topics in crypto right now.
 
-Are you paying attention or are you still early?
+Smart money follows narratives before the crowd.
+
+What's your take?
 
 #Crypto #Web3
 """
 
-url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-
 requests.post(
-    url,
+    f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
     data={
         "chat_id": CHAT_ID,
         "text": message
