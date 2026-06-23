@@ -1,7 +1,8 @@
+import os
 import requests
 import random
 
-BOT_TOKEN = "8808812721:AAHxyMi93jJHguMWWXPmFHR6ECC13x_SIOQ"
+BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = "1237652497"
 
 trends = [
