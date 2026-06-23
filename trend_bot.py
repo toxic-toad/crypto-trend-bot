@@ -1,45 +1,58 @@
 import os
 import requests
-import random
+import feedparser
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 CHAT_ID = "1237652497"
 
-trends = [
-    "Solana",
-    "Jupiter",
-    "Pump.fun",
-    "Bitcoin ETF",
-    "Hyperliquid",
-    "Ethereum",
-    "BONK",
-    "DePIN",
-    "AI Agents",
-    "Base"
+feeds = [
+    "https://feeds.feedburner.com/CoinDesk",
+    "https://cointelegraph.com/rss",
+    "https://www.theverge.com/rss/index.xml"
 ]
 
-trend = random.choice(trends)
+articles = []
 
-message = f"""
-🔥 Crypto Trend Alert
+for feed in feeds:
+    try:
+        parsed = feedparser.parse(feed)
 
-Topic: {trend}
+        for entry in parsed.entries[:5]:
+            articles.append({
+                "title": entry.title,
+                "link": entry.link
+            })
+    except:
+        pass
 
-Tweet Idea:
+if len(articles) == 0:
+    message = "❌ No trends found."
+else:
+    trend = articles[0]
 
-🚀 {trend} is one of the most discussed topics in crypto right now.
+    headline = trend["title"]
 
-Smart money follows narratives before the crowd.
+    tweet = f"""
+🔥 TREND ALERT
 
-What's your take?
+Headline:
+{headline}
 
-#Crypto #Web3
+Tweet Draft:
+
+🚀 {headline}
+
+This story is getting attention right now and could have a major impact on the market and tech ecosystem.
+
+What do you think?
+
+#Trending #Tech #Crypto
 """
 
-requests.post(
-    f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
-    data={
-        "chat_id": CHAT_ID,
-        "text": message
-    }
-)
+    requests.post(
+        f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage",
+        data={
+            "chat_id": CHAT_ID,
+            "text": tweet
+        }
+    )
